@@ -1,0 +1,970 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Introduction étape par étape à la programmation mobile avec Kotlin">
+      
+      
+        <meta name="author" content="Serge Tahé">
+      
+      
+        <link rel="canonical" href="https://stahe.github.io/kotlin-etape-par-etape-nestjs-oct-2026/introduction.html">
+      
+      
+        <link rel="prev" href="index.html">
+      
+      
+        <link rel="next" href="mise-en-place-de-lenvironnement-de-travail.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1. Introduction - Introduction étape par étape à la programmation mobile avec Kotlin</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/focus.css">
+    
+      <link rel="stylesheet" href="stylesheets/bidi.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBZC3JVJNR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var siteName = "Introduction étape par étape à la programmation mobile avec Kotlin";
+    gtag('config', 'G-EBZC3JVJNR', {
+        'page_title': siteName
+    });
+  </script>
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Introduction étape par étape à la programmation mobile avec Kotlin" class="md-header__button md-logo" aria-label="Introduction étape par étape à la programmation mobile avec Kotlin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction étape par étape à la programmation mobile avec Kotlin
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple"  aria-label="Passer en mode sombre"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Passer en mode sombre" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="purple"  aria-label="Passer en mode clair"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Passer en mode clair" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://stahe.github.io/kotlin-etape-par-etape-nestjs-oct-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introduction étape par étape à la programmation mobile avec Kotlin" class="md-nav__button md-logo" aria-label="Introduction étape par étape à la programmation mobile avec Kotlin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introduction étape par étape à la programmation mobile avec Kotlin
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://stahe.github.io/kotlin-etape-par-etape-nestjs-oct-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="introduction.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#11-la-place-dandroid-et-de-compose-dans-une-application-client-serveur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. La place d&#x27;Android et de Compose dans une application client / serveur
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-les-outils-utilises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Les outils utilisés
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-les-copies-decran" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Les copies d&#x27;écran
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-les-exemples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Les exemples
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-contenu-du-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5. Contenu du document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mise-en-place-de-lenvironnement-de-travail.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Mise en place de l'environnement de travail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="premiers-pas-avec-kotlin-et-jetpack-compose.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Premiers pas avec Kotlin et Jetpack Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="les-composants.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Les composants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="la-navigation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. La navigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lasynchrone-et-letat-partage.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. L'asynchrone et l'état partagé
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="internationalisation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Internationalisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="le-serveur-rdvmedecins-une-boite-noire.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Le serveur RdvMedecins, une boîte noire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dialoguer-avec-le-serveur.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Dialoguer avec le serveur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusion-intermediaire.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Conclusion intermédiaire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="etude-de-cas--le-client-kotlin-de-lapplication-rdvmedecins.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Étude de cas : le client Kotlin de l'application RdvMedecins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="deploiement.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Déploiement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Conclusion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="annexes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Annexes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="1-introduction">1. <span style="color: #2e74b5">Introduction</span></h1>
+<p>Le PDF du document est <a href="https://1drv.ms/b/c/f53a919f43d27eb5/IQD1Y6DD4s7kQLGVLISCv55UASi9mfavEjOSzvDFmhoTjoc?e=KysFP3">ICI</a>.</p>
+<p>Les codes du document sont <a href="https://1drv.ms/u/c/f53a919f43d27eb5/IQA-ItH7duN5TawGkgT7GCDOAYecYsT_1i7v2XiQS-yeFlA?e=X9wH15">ICI</a>.</p>
+<p>Ce document est un produit de l&#x27;IA Claude d&#x27;Anthropic. Il reprend le cours <a href="https://stahe.github.io/flutter-etape-par-etape-sept-2026/">Introduction étape par étape au framework mobile Flutter</a> - son plan, ses 25 exemples, son serveur et son étude de cas - et en change l&#x27;outil :</p>
+<ul>
+<li>dans le cours <em>[Flutter]</em>, l&#x27;application est écrite en <em>[Dart]</em>, avec un framework qui dessine lui-même chaque pixel de l&#x27;écran, et le même code produit une application <em>[Android]</em>, <em>[iOS]</em> ou web ;</li>
+<li>dans ce cours, l&#x27;application est une application <em>[Android]</em> NATIVE, écrite en <em>[Kotlin]</em> (le langage recommandé par Google pour Android depuis 2019), avec <em>[Jetpack Compose]</em>, la bibliothèque d&#x27;interface déclarative d&#x27;Android.</li>
+</ul>
+<p>Le serveur, lui, ne change pas : c&#x27;est le serveur JSON <em>[RdvMedecins]</em> écrit avec <em>[NestJS]</em>, déjà utilisé par les clients React, Vue.js, Angular et Flutter. Et les écrans sont ceux que les lecteurs de ces cours connaissent : connexion avec captcha, agenda d&#x27;un médecin, fenêtre de réservation, espace du patient, gestion des médecins et des clients, création d&#x27;un compte, français et anglais.</p>
+<p>Les 25 exemples portent les mêmes numéros que ceux du cours <em>[Flutter]</em> (et des cours <a href="https://stahe.github.io/react-etape-par-etape-sept-2026/">React</a>, <a href="https://stahe.github.io/vuejs-etape-par-etape-sept-2026/">Vue.js</a> et <a href="https://stahe.github.io/angular-etape-par-etape-sept-2026/">Angular</a>) : le lecteur qui connaît l&#x27;un de ces frameworks retrouvera chaque notion à sa place. Quand une notion de <em>[Flutter]</em> n&#x27;a pas d&#x27;équivalent direct dans <em>[Compose]</em>, l&#x27;exemple montre la façon de faire d&#x27;<em>[Android]</em> (un formulaire écrit avec des classes ordinaires, des ressources [strings.xml] pour les textes, des liens profonds plutôt que des adresses web...).</p>
+<p>Un cours existe déjà sur ce sujet : <a href="https://stahe.github.io/kotlin-android-nestjs-oct-2026/">Un exemple de client / serveur - Kotlin Android / NestJS (2026)</a>, qui présente d&#x27;emblée un client complet. Le présent document s&#x27;en distingue par sa démarche : on apprend <em>[Compose]</em> pas à pas, par de petits exemples, avant de s&#x27;attaquer au client complet ; et le serveur y est une boîte noire, dont seule l&#x27;API JSON nous intéresse.</p>
+<p>Les bases du langage <em>[Kotlin]</em> (classes, data classes, nullabilité, lambdas, fonctions d&#x27;extension, collections) sont supposées connues : elles sont présentées dans le cours <a href="https://stahe.github.io/kotlin-oct-2026/">Kotlin</a>. Les traits du langage qui servent particulièrement à <em>[Compose]</em> (fonctions en paramètres, lambdas finales, délégation [by], interfaces scellées, coroutines) sont rappelés au fil des exemples, au moment où ils servent.</p>
+<p>L&#x27;IA Claude a écrit tous les codes, les a compilés et exécutés sur un émulateur <em>[Android]</em>, sur le poste du réviseur et avec son accord ; les copies d&#x27;écran ont été prises pendant ces exécutions.</p>
+<h2 id="11-la-place-dandroid-et-de-compose-dans-une-application-client-serveur">1.1. <span style="color: #2e74b5">La place d&#x27;Android et de Compose dans une application client / serveur</span></h2>
+<p>L&#x27;application a deux parties, qui ne se parlent que par des requêtes HTTP :</p>
+<p><img src="images/1000000000000AF000000348E62EC0EF.png" width="605" height="181" style="width:16cm;height:4.8cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/1000000000000AF000000348E62EC0EF.png" /></p>
+<ul>
+<li>1 : l&#x27;application <em>[Android]</em>, exécutée par le téléphone, envoie une requête HTTP au serveur, par exemple [GET /api/agenda?idMedecin=1&amp;jour=2026-10-05] ;</li>
+<li>2 : le serveur répond par des données JSON : l&#x27;agenda de ce médecin, ce jour-là. Il ne fabrique aucune page ;</li>
+<li>3 : avec ces données, <em>[Compose]</em> met à jour l&#x27;écran du téléphone.</li>
+</ul>
+<p>C&#x27;est exactement l&#x27;architecture des clients <em>[React]</em>, <em>[Vue.js]</em>, <em>[Angular]</em> et <em>[Flutter]</em> : seul change ce qui fabrique l&#x27;affichage. <em>[Jetpack Compose]</em> repose sur les mêmes idées que <em>[React]</em> et <em>[Flutter]</em> :</p>
+<ul>
+<li>l&#x27;écran est décrit par des FONCTIONS : une fonction annotée [@Composable] décrit un morceau de l&#x27;interface (un texte, un bouton, une colonne, un écran entier) en appelant d&#x27;autres fonctions [@Composable]. Elles forment un arbre ;</li>
+<li>l&#x27;interface est une fonction de l&#x27;état : quand une donnée observée change (un « état », [mutableStateOf]), <em>[Compose]</em> réexécute les fonctions qui la lisent - c&#x27;est la RECOMPOSITION - et met à jour l&#x27;écran. On n&#x27;écrit jamais de code qui modifie l&#x27;écran : on décrit l&#x27;écran en fonction de l&#x27;état ;</li>
+<li>un langage moderne, <em>[Kotlin]</em>, compilé pour la machine virtuelle d&#x27;<em>[Android]</em> : ses lambdas, ses fonctions d&#x27;extension et ses coroutines rendent ce style d&#x27;écriture naturel.</li>
+</ul>
+<p>Contrairement à <em>[Flutter]</em>, <em>[Compose]</em> est propre à <em>[Android]</em> (une variante, <em>[Compose Multiplatform]</em>, existe pour d&#x27;autres plateformes, mais elle n&#x27;est pas étudiée ici). En contrepartie, l&#x27;application est une application <em>[Android]</em> « comme les autres » : elle utilise directement les bibliothèques de Google (<em>[Jetpack]</em>) et les services du système (langue de l&#x27;application, cycle de vie des activités, gestionnaire de mots de passe...).</p>
+<p>Comme <em>[Flutter]</em>, <em>[Compose]</em> n&#x27;est pas un framework « à tout compris » pour le dialogue avec un serveur : le client HTTP, la navigation, l&#x27;état partagé sont fournis par des bibliothèques. Ce cours utilise celles que recommande Google (<em>[Jetpack]</em> : Navigation, ViewModel, DataStore, AppCompat) et les bibliothèques les plus répandues de l&#x27;écosystème <em>[Kotlin]</em> (<em>[OkHttp]</em>, <em>[kotlinx.serialization]</em>).</p>
+<h2 id="12-les-outils-utilises">1.2. <span style="color: #2e74b5">Les outils utilisés</span></h2>
+<p>Les exemples ont été écrits et testés avec les outils suivants :</p>
+<ul>
+<li><em>[Android Studio]</em> (version Quail 2026.1), l&#x27;environnement de développement de Google : éditeur, SDK <em>[Android]</em>, émulateur. Il contient son propre JDK (le [JBR] 25), qui sert à <em>[Gradle]</em> ;</li>
+<li><em>[Gradle]</em> 9.6 et le plugin <em>[Android]</em> (AGP) 9.4, qui compilent l&#x27;application. Le plugin <em>[Android]</em> 9 intègre lui-même la prise en charge de <em>[Kotlin]</em> 2.2 ;</li>
+<li>un émulateur <em>[Android]</em> (un Pixel 8, <em>[Android]</em> 17, API 37) ou un vrai téléphone <em>[Android]</em> relié à l&#x27;ordinateur ;</li>
+<li>le SGBD <em>[MySQL]</em> (ou <em>[MariaDB]</em>), par exemple celui de <em>[Laragon]</em> sous <em>[Windows]</em>, et <em>[Node.js]</em> : ils sont nécessaires au serveur JSON, à partir du chapitre qui le présente ;</li>
+<li>l&#x27;outil en ligne de commande <em>[curl]</em>, qui affiche les réponses HTTP brutes.</li>
+</ul>
+<p>Les bibliothèques utilisées sont déclarées dans le fichier [gradle/libs.versions.toml] de chaque projet : la « BOM » <em>[Compose]</em> 2026.02 (Material 3), <em>[Navigation Compose]</em> 2.9, <em>[Lifecycle]</em> 2.9 (ViewModel), <em>[DataStore]</em> 1.1, <em>[AppCompat]</em> 1.7, <em>[OkHttp]</em> 4.12, <em>[kotlinx.serialization]</em> 1.9, <em>[AndroidSVG]</em> 1.4.</p>
+<h2 id="13-les-copies-decran">1.3. <span style="color: #2e74b5">Les copies d&#x27;écran</span></h2>
+<p>Les copies d&#x27;écran de ce document ont été fabriquées automatiquement, par des tests « instrumentés » (dossiers [app/src/androidTest] des projets) : ces tests s&#x27;exécutent sur l&#x27;émulateur, lancent chaque exemple, le manipulent comme le ferait un utilisateur (saisies, appuis sur les boutons), puis photographient l&#x27;écran entier. L&#x27;horloge de la barre d&#x27;état est figée à 10:00 (le « mode démonstration » d&#x27;<em>[Android]</em>).</p>
+<h2 id="14-les-exemples">1.4. <span style="color: #2e74b5">Les exemples</span></h2>
+<p>Les codes du document sont rangés dans trois dossiers :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>kotlin-etape-par-etape-oct-2026/
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── exemples_kotlin/          les 25 petits exemples (un seul projet Android Studio)
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>├── rdvmedecins-nestjs-json/  le serveur JSON RdvMedecins (la « boîte noire »)
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>└── rdvmedecins_kotlin/       le client Android de l'étude de cas
+</code></pre></div></td></tr></table></div>
+<p>Les exemples forment un seul projet <em>[Android Studio]</em>, une seule application <em>[Android]</em> : chaque exemple est une ACTIVITÉ (un écran), rangée dans son propre paquet ([fr.stahe.exemples.ex01], [fr.stahe.exemples.ex02]...), et un menu, l&#x27;activité de démarrage, permet de les lancer tous :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>exemples_kotlin/
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>├── app/
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>│   ├── build.gradle.kts            la configuration de l'application
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>│   └── src/
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>│       ├── main/
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>│       │   ├── AndroidManifest.xml les activités de l'application
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a>│       │   ├── assets/             des fichiers livrés avec l'application (exemple 25)
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a>│       │   ├── java/fr/stahe/exemples/
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a>│       │   │   ├── MainActivity.kt le menu des 25 exemples
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>│       │   │   ├── commun/         du code partagé par les exemples
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a>│       │   │   ├── ex01/           l'exemple 01 : Ex01Activity.kt
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a>│       │   │   ├── ...
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a>│       │   │   └── ex25/
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a>│       │   └── res/                les ressources : textes, images, icônes
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a>│       └── androidTest/            la fabrication des copies d'écran
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a>├── gradle/libs.versions.toml       les versions des bibliothèques
+<a id="__codelineno-1-17" name="__codelineno-1-17"></a>├── build.gradle.kts, settings.gradle.kts
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a>└── gradlew, gradlew.bat            le lanceur de Gradle
+</code></pre></div></td></tr></table></div>
+<p>On ouvre le dossier [exemples_kotlin] dans <em>[Android Studio]</em> ([File / Open]) ; <em>[Gradle]</em> télécharge alors les bibliothèques. On lance l&#x27;application avec le bouton [Run] (le triangle vert) : le menu s&#x27;affiche, et chaque ligne ouvre un exemple. On peut aussi lancer directement un exemple, depuis une console, avec l&#x27;outil [adb] du SDK <em>[Android]</em> :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>adb shell am start -n fr.stahe.exemples/.ex05.Ex05Activity
+</code></pre></div></td></tr></table></div>
+<p>Les exemples 22 à 25 interrogent le serveur JSON <em>[RdvMedecins]</em> : il faudra alors l&#x27;avoir installé et lancé, comme expliqué au chapitre qui lui est consacré.</p>
+<h2 id="15-contenu-du-document">1.5. <span style="color: #2e74b5">Contenu du document</span></h2>
+<ul>
+<li>Premiers pas (exemples 01 à 09) : une activité, les fonctions [@Composable], l&#x27;état ([remember], [mutableStateOf]), les événements, les champs de saisie, un réducteur, la validation, un formulaire réutilisable, la mise en forme ;</li>
+<li>Les composants (10 à 16) : paramètres, fonctions en paramètres, composition (contenus en paramètres), cycle de vie et effets, [CompositionLocal], comportements réutilisables (animations, fonctions [remember...]), fenêtre de confirmation ;</li>
+<li>La navigation (17 et 18) : <em>[Navigation Compose]</em>, routes typées, paramètres, liens profonds, gardes ;</li>
+<li>L&#x27;asynchrone et l&#x27;état partagé (19 et 20) : coroutines, [Flow], anti-rebond, réponses périmées, [ViewModel], <em>[DataStore]</em> ;</li>
+<li>Internationalisation (21) : ressources [strings.xml], pluriels, langue de l&#x27;application ;</li>
+<li>Le serveur, une boîte noire : installation du serveur JSON, son API, exemples <em>[curl]</em> ;</li>
+<li>Dialoguer avec le serveur (22 à 25) : <em>[OkHttp]</em>, l&#x27;adresse du serveur, le cookie du jeton, une couche d&#x27;accès à l&#x27;API, un modèle de vue, les erreurs du serveur ;</li>
+<li>Étude de cas : le client <em>[Android]</em> de l&#x27;application <em>[RdvMedecins]</em> ;</li>
+<li>Déploiement : l&#x27;application signée (APK), le serveur en production.</li>
+</ul>
+<p>Chaque exemple est présenté avec son code complet, commenté, et des copies d&#x27;écran de son exécution. Les codes sont eux-mêmes abondamment commentés : leurs commentaires font partie du cours.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner">
+
+      <div>
+        <a href="https://stahe.github.io" target="_blank">
+          https://stahe.github.io
+        </a>
+        <br>
+        Ce cours, rédigé par l’IA d’Anthropic <strong>Claude</strong> à la demande de <strong>Serge Tahé</strong>, est mis à la disposition du public selon les termes de la
+        <em>licence Creative Commons Attribution – Pas d’utilisation commerciale –
+        ShareAlike 3.0 Unported</em>.
+
+      </div>
+
+    </div>
+  </div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "toc.integrate", "navigation.top"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="javascripts/focus.js"></script>
+      
+    
+  </body>
+</html>

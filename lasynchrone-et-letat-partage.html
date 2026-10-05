@@ -1,0 +1,1813 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Introduction étape par étape à la programmation mobile avec Kotlin">
+      
+      
+        <meta name="author" content="Serge Tahé">
+      
+      
+        <link rel="canonical" href="https://stahe.github.io/kotlin-etape-par-etape-nestjs-oct-2026/lasynchrone-et-letat-partage.html">
+      
+      
+        <link rel="prev" href="la-navigation.html">
+      
+      
+        <link rel="next" href="internationalisation.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>6. L'asynchrone et l'état partagé - Introduction étape par étape à la programmation mobile avec Kotlin</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/focus.css">
+    
+      <link rel="stylesheet" href="stylesheets/bidi.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBZC3JVJNR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    var siteName = "Introduction étape par étape à la programmation mobile avec Kotlin";
+    gtag('config', 'G-EBZC3JVJNR', {
+        'page_title': siteName
+    });
+  </script>
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6-lasynchrone-et-letat-partage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Introduction étape par étape à la programmation mobile avec Kotlin" class="md-header__button md-logo" aria-label="Introduction étape par étape à la programmation mobile avec Kotlin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction étape par étape à la programmation mobile avec Kotlin
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6. L'asynchrone et l'état partagé
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="purple"  aria-label="Passer en mode sombre"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Passer en mode sombre" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="purple"  aria-label="Passer en mode clair"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Passer en mode clair" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://stahe.github.io/kotlin-etape-par-etape-nestjs-oct-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Introduction étape par étape à la programmation mobile avec Kotlin" class="md-nav__button md-logo" aria-label="Introduction étape par étape à la programmation mobile avec Kotlin" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introduction étape par étape à la programmation mobile avec Kotlin
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://stahe.github.io/kotlin-etape-par-etape-nestjs-oct-2026" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="introduction.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mise-en-place-de-lenvironnement-de-travail.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Mise en place de l'environnement de travail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="premiers-pas-avec-kotlin-et-jetpack-compose.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Premiers pas avec Kotlin et Jetpack Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="les-composants.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Les composants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="la-navigation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. La navigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. L'asynchrone et l'état partagé
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="lasynchrone-et-letat-partage.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. L'asynchrone et l'état partagé
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#61-exemple-19-coroutines-flow-et-minuteries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Exemple 19 : coroutines, Flow et minuteries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-exemple-20-un-etat-partage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Exemple 20 : un état partagé
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="internationalisation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Internationalisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="le-serveur-rdvmedecins-une-boite-noire.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Le serveur RdvMedecins, une boîte noire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dialoguer-avec-le-serveur.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Dialoguer avec le serveur
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusion-intermediaire.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Conclusion intermédiaire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="etude-de-cas--le-client-kotlin-de-lapplication-rdvmedecins.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Étude de cas : le client Kotlin de l'application RdvMedecins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="deploiement.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Déploiement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="conclusion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Conclusion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="annexes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Annexes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="6-lasynchrone-et-letat-partage">6. <span style="color: #2e74b5">L&#x27;asynchrone et l&#x27;état partagé</span></h1>
+<h2 id="61-exemple-19-coroutines-flow-et-minuteries">6.1. <span style="color: #2e74b5">Exemple 19 : coroutines, Flow et minuteries</span></h2>
+<p>Beaucoup de choses arrivent « plus tard » : les tics d&#x27;une minuterie, les frappes au clavier, la réponse d&#x27;un serveur. Là où <em>[Dart]</em> a ses [Future] et ses [Stream], <em>[Kotlin]</em> a les COROUTINES :</p>
+<ul>
+<li>une fonction [suspend] peut ATTENDRE ([delay], la réponse d&#x27;un serveur...) sans bloquer le téléphone : pendant l&#x27;attente, l&#x27;écran continue de vivre. Elle renvoie UNE valeur, plus tard : c&#x27;est l&#x27;équivalent d&#x27;une fonction [async] qui renvoie un [Future] ;</li>
+<li>un [Flow&lt;T&gt;] est une SUITE de valeurs, au fil du temps, qu&#x27;on transforme avec des opérateurs ([map], [debounce]...) : l&#x27;équivalent d&#x27;un [Stream] ;</li>
+<li>une coroutine est lancée dans une PORTÉE ([LaunchedEffect], [rememberCoroutineScope], [viewModelScope]...) ; elle est ANNULÉE quand sa portée disparaît.</li>
+</ul>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-0-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-0-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-0-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-0-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-0-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-0-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-0-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-0-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-0-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-0-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-0-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-0-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-0-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-0-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-0-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-0-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-0-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-0-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-0-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-0-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-0-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-0-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-0-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-0-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-0-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-0-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-0-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-0-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-0-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-0-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-0-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-0-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-0-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-0-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-0-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-0-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-0-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-0-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-0-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-0-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-0-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-0-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-0-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-0-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-0-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-0-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-0-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-0-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-0-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-0-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-0-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-0-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-0-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-0-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-0-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-0-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-0-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-0-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-0-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-0-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-0-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-0-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-0-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-0-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-0-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-0-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-0-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-0-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-0-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-0-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-0-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-0-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#__codelineno-0-103">103</a></span>
+<span class="normal"><a href="#__codelineno-0-104">104</a></span>
+<span class="normal"><a href="#__codelineno-0-105">105</a></span>
+<span class="normal"><a href="#__codelineno-0-106">106</a></span>
+<span class="normal"><a href="#__codelineno-0-107">107</a></span>
+<span class="normal"><a href="#__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#__codelineno-0-109">109</a></span>
+<span class="normal"><a href="#__codelineno-0-110">110</a></span>
+<span class="normal"><a href="#__codelineno-0-111">111</a></span>
+<span class="normal"><a href="#__codelineno-0-112">112</a></span>
+<span class="normal"><a href="#__codelineno-0-113">113</a></span>
+<span class="normal"><a href="#__codelineno-0-114">114</a></span>
+<span class="normal"><a href="#__codelineno-0-115">115</a></span>
+<span class="normal"><a href="#__codelineno-0-116">116</a></span>
+<span class="normal"><a href="#__codelineno-0-117">117</a></span>
+<span class="normal"><a href="#__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#__codelineno-0-119">119</a></span>
+<span class="normal"><a href="#__codelineno-0-120">120</a></span>
+<span class="normal"><a href="#__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#__codelineno-0-138">138</a></span>
+<span class="normal"><a href="#__codelineno-0-139">139</a></span>
+<span class="normal"><a href="#__codelineno-0-140">140</a></span>
+<span class="normal"><a href="#__codelineno-0-141">141</a></span>
+<span class="normal"><a href="#__codelineno-0-142">142</a></span>
+<span class="normal"><a href="#__codelineno-0-143">143</a></span>
+<span class="normal"><a href="#__codelineno-0-144">144</a></span>
+<span class="normal"><a href="#__codelineno-0-145">145</a></span>
+<span class="normal"><a href="#__codelineno-0-146">146</a></span>
+<span class="normal"><a href="#__codelineno-0-147">147</a></span>
+<span class="normal"><a href="#__codelineno-0-148">148</a></span>
+<span class="normal"><a href="#__codelineno-0-149">149</a></span>
+<span class="normal"><a href="#__codelineno-0-150">150</a></span>
+<span class="normal"><a href="#__codelineno-0-151">151</a></span>
+<span class="normal"><a href="#__codelineno-0-152">152</a></span>
+<span class="normal"><a href="#__codelineno-0-153">153</a></span>
+<span class="normal"><a href="#__codelineno-0-154">154</a></span>
+<span class="normal"><a href="#__codelineno-0-155">155</a></span>
+<span class="normal"><a href="#__codelineno-0-156">156</a></span>
+<span class="normal"><a href="#__codelineno-0-157">157</a></span>
+<span class="normal"><a href="#__codelineno-0-158">158</a></span>
+<span class="normal"><a href="#__codelineno-0-159">159</a></span>
+<span class="normal"><a href="#__codelineno-0-160">160</a></span>
+<span class="normal"><a href="#__codelineno-0-161">161</a></span>
+<span class="normal"><a href="#__codelineno-0-162">162</a></span>
+<span class="normal"><a href="#__codelineno-0-163">163</a></span>
+<span class="normal"><a href="#__codelineno-0-164">164</a></span>
+<span class="normal"><a href="#__codelineno-0-165">165</a></span>
+<span class="normal"><a href="#__codelineno-0-166">166</a></span>
+<span class="normal"><a href="#__codelineno-0-167">167</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1">// ex19/Ex19Activity.kt - coroutines, Flow, minuteries</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">// -------------------------------------------------------------------------</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1">// Beaucoup de choses arrivent "plus tard" : les tics d'une minuterie, les</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1">// frappes au clavier, la réponse d'un serveur. Kotlin a pour cela les</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c1">// COROUTINES :</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1">//   - une fonction "suspend" peut ATTENDRE (delay, la réponse d'un</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1">//     serveur...) sans bloquer le téléphone : pendant l'attente, l'écran</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="c1">//     continue de vivre. Elle renvoie UNE valeur, plus tard ;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="c1">//   - un Flow&lt;T&gt; est une SUITE de valeurs, au fil du temps (des tics, des</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c1">//     saisies...), qu'on transforme avec des opérateurs (map, debounce...) ;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="c1">//   - une coroutine est lancée dans une PORTÉE (scope) : LaunchedEffect,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="c1">//     rememberCoroutineScope... ; elle est annulée quand sa portée disparaît.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="c1">// Compose sait afficher un Flow, en se recomposant à chaque valeur :</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="c1">// collectAsStateWithLifecycle.</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="nd">@file</span><span class="p">:</span><span class="n">OptIn</span><span class="p">(</span><span class="n">FlowPreview</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">ExperimentalCoroutinesApi</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="k">package</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex19</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.enableEdgeToEdge</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxWidth</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Card</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.OutlinedTextField</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.LaunchedEffect</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateListOf</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.produceState</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.snapshotFlow</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.Color</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.sp</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.commun.PageExemple</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.commun.ThemeExemples</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.CancellationException</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.ExperimentalCoroutinesApi</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.FlowPreview</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.delay</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.debounce</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.flow</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.map</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.mapLatest</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalTime</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="k">import</span><span class="w"> </span><span class="nn">java.time.format.DateTimeFormatter</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlin.random.Random</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="kd">val</span><span class="w"> </span><span class="nv">medecins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="s">"Marie PELISSIER"</span><span class="p">,</span><span class="w"> </span><span class="s">"Paul TATOU"</span><span class="p">,</span><span class="w"> </span><span class="s">"Sophie DUPONT"</span><span class="p">,</span><span class="w"> </span><span class="s">"Jacques DURAND"</span><span class="p">,</span><span class="w"> </span><span class="s">"Martine PELLETIER"</span><span class="p">)</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="c1">// un "serveur" simulé : une fonction SUSPENDUE, dont la réponse arrive</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="c1">// après un délai aléatoire</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">rechercher</span><span class="p">(</span><span class="n">texte</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="m">200L</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Random</span><span class="p">.</span><span class="na">nextLong</span><span class="p">(</span><span class="m">600</span><span class="p">))</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">medecins</span><span class="p">.</span><span class="na">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">lowercase</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="n">texte</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="p">}</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="c1">// 1. un Flow fabriqué par le constructeur flow { } : chaque emit ENVOIE une</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="c1">// valeur à celui qui le collecte</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">compteARebours</span><span class="p">(</span><span class="n">depart</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flow</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">reste</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">depart</span><span class="w"> </span><span class="n">downTo</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="w">        </span><span class="n">emit</span><span class="p">(</span><span class="n">reste</span><span class="p">)</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reste</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a><span class="p">}</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">heureCourante</span><span class="p">():</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">format</span><span class="p">(</span><span class="n">DateTimeFormatter</span><span class="p">.</span><span class="na">ofPattern</span><span class="p">(</span><span class="s">"HH:mm:ss"</span><span class="p">))</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="kd">class</span><span class="w"> </span><span class="nc">Ex19Activity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="w">        </span><span class="n">enableEdgeToEdge</span><span class="p">()</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ThemeExemples</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">PageAsynchrone</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="p">}</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="nd">@Composable</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">PageAsynchrone</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">journal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateListOf</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">tracer</span><span class="p">(</span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">journal</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"</span><span class="si">${</span><span class="n">heureCourante</span><span class="p">()</span><span class="si">}</span><span class="s"> </span><span class="si">$</span><span class="n">message</span><span class="s">"</span><span class="p">)</span>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="w">    </span><span class="c1">// le Flow est créé UNE fois (remember) : sans cela, chaque recomposition</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="w">    </span><span class="c1">// relancerait le compte à rebours !</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">rebours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">compteARebours</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="w">    </span><span class="c1">// collectAsStateWithLifecycle : un état qui suit les valeurs du Flow</span>
+<a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="w">    </span><span class="c1">// (null avant la première) ; la collecte s'arrête si l'application</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="w">    </span><span class="c1">// passe au second plan</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">reste</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">rebours</span><span class="p">.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">(</span><span class="n">initialValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<a id="__codelineno-0-101" name="__codelineno-0-101"></a>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="w">    </span><span class="c1">// 2. la recherche au fil de la frappe</span>
+<a id="__codelineno-0-103" name="__codelineno-0-103"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">saisie</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-104" name="__codelineno-0-104"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">resultats</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">listOf</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a><span class="w">    </span><span class="n">LaunchedEffect</span><span class="p">(</span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-106" name="__codelineno-0-106"></a><span class="w">        </span><span class="c1">// snapshotFlow : un Flow des valeurs successives d'un état Compose</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a><span class="w">        </span><span class="n">snapshotFlow</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">saisie</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a><span class="w">            </span><span class="c1">// l'ANTI-REBOND : une saisie n'est transmise qu'après 400 ms sans frappe</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a><span class="w">            </span><span class="p">.</span><span class="na">debounce</span><span class="p">(</span><span class="m">400</span><span class="p">)</span>
+<a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="w">            </span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">trim</span><span class="p">().</span><span class="na">lowercase</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="w">            </span><span class="c1">// mapLatest : une nouvelle saisie ANNULE la recherche précédente,</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a><span class="w">            </span><span class="c1">// si elle n'est pas terminée : pas de réponse périmée</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="w">            </span><span class="p">.</span><span class="na">mapLatest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">texte</span><span class="w"> </span><span class="o">-&gt;</span>
+<a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="w">                </span><span class="c1">// moins de deux lettres : pas de recherche, aucun résultat</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">texte</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="nd">@mapLatest</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span>
+<a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="w">                </span><span class="n">tracer</span><span class="p">(</span><span class="s">"recherche envoyée : « </span><span class="si">$</span><span class="n">texte</span><span class="s"> »"</span><span class="p">)</span>
+<a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="w">                </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="w">                    </span><span class="n">rechercher</span><span class="p">(</span><span class="n">texte</span><span class="p">)</span>
+<a id="__codelineno-0-119" name="__codelineno-0-119"></a><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">CancellationException</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="w">                    </span><span class="n">tracer</span><span class="p">(</span><span class="s">"recherche annulée (périmée) : « </span><span class="si">$</span><span class="n">texte</span><span class="s"> »"</span><span class="p">)</span>
+<a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="w">                    </span><span class="k">throw</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="c1">// une coroutine annulée doit le rester</span>
+<a id="__codelineno-0-122" name="__codelineno-0-122"></a><span class="w">                </span><span class="p">}</span>
+<a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="w">            </span><span class="c1">// collect : consomme les valeurs du Flow, une à une</span>
+<a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="w">            </span><span class="p">.</span><span class="na">collect</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">resultats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-127" name="__codelineno-0-127"></a>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="w">    </span><span class="c1">// 3. une valeur qui arrive au bout d'une seconde : produceState lance une</span>
+<a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="w">    </span><span class="c1">// coroutine qui PRODUIT un état</span>
+<a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">message</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">produceState</span><span class="o">&lt;</span><span class="kt">String?</span><span class="o">&gt;</span><span class="p">(</span><span class="n">initialValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-131" name="__codelineno-0-131"></a><span class="w">        </span><span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
+<a id="__codelineno-0-132" name="__codelineno-0-132"></a><span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"trois (une seconde plus tard)"</span>
+<a id="__codelineno-0-133" name="__codelineno-0-133"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-134" name="__codelineno-0-134"></a>
+<a id="__codelineno-0-135" name="__codelineno-0-135"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">styleTitre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">typography</span><span class="p">.</span><span class="na">titleSmall</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a><span class="w">    </span><span class="n">PageExemple</span><span class="p">(</span><span class="s">"Exemple 19 - l'asynchrone"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="w">        </span><span class="n">Card</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="w">            </span><span class="n">Column</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">12.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-139" name="__codelineno-0-139"></a><span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="s">"Un compte à rebours (un Flow, collecté)"</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">styleTitre</span><span class="p">)</span>
+<a id="__codelineno-0-140" name="__codelineno-0-140"></a><span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="n">reste</span><span class="o">?.</span><span class="na">toString</span><span class="p">()</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">"..."</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">typography</span><span class="p">.</span><span class="na">displaySmall</span><span class="p">)</span>
+<a id="__codelineno-0-141" name="__codelineno-0-141"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-0-142" name="__codelineno-0-142"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-0-143" name="__codelineno-0-143"></a><span class="w">        </span><span class="n">Card</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-144" name="__codelineno-0-144"></a><span class="w">            </span><span class="n">Column</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">12.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-145" name="__codelineno-0-145"></a><span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="s">"Une recherche au fil de la frappe (anti-rebond, réponses périmées)"</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">styleTitre</span><span class="p">)</span>
+<a id="__codelineno-0-146" name="__codelineno-0-146"></a><span class="w">                </span><span class="n">OutlinedTextField</span><span class="p">(</span>
+<a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">                    </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">saisie</span><span class="p">,</span>
+<a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="w">                    </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">saisie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-149" name="__codelineno-0-149"></a><span class="w">                    </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"au moins deux lettres : pel, dur..."</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-150" name="__codelineno-0-150"></a><span class="w">                    </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-0-151" name="__codelineno-0-151"></a><span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<a id="__codelineno-0-152" name="__codelineno-0-152"></a><span class="w">                </span><span class="p">)</span>
+<a id="__codelineno-0-153" name="__codelineno-0-153"></a><span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">resultats</span><span class="p">)</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"• </span><span class="si">$</span><span class="n">r</span><span class="s">"</span><span class="p">)</span>
+<a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resultats</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"aucun résultat"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Gray</span><span class="p">)</span>
+<a id="__codelineno-0-155" name="__codelineno-0-155"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-0-156" name="__codelineno-0-156"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="w">        </span><span class="n">Card</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="w">            </span><span class="n">Column</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">12.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-159" name="__codelineno-0-159"></a><span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="s">"Attendre une valeur (produceState)"</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">styleTitre</span><span class="p">)</span>
+<a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="w">                </span><span class="c1">// tant que la valeur n'est pas arrivée : le texte d'attente</span>
+<a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"en attente..."</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Gray</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"reçu : </span><span class="si">$</span><span class="n">message</span><span class="s">"</span><span class="p">)</span>
+<a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="w">        </span><span class="n">Text</span><span class="p">(</span><span class="s">"Journal"</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">styleTitre</span><span class="p">)</span>
+<a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="w">        </span><span class="n">journal</span><span class="p">.</span><span class="na">forEachIndexed</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ligne</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"</span><span class="si">${</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="si">}</span><span class="s">. </span><span class="si">$</span><span class="n">ligne</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">fontSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12.</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>lignes 65-67 : un « serveur » simulé : une fonction suspendue dont la réponse arrive après un délai aléatoire ;</li>
+<li>lignes 72-75 : un [Flow] fabriqué par [flow <em>[ ... ]</em>] : chaque [emit] envoie une valeur à celui qui le collecte ; [downTo] : une boucle descendante ;</li>
+<li>lignes 96-100 : le [Flow] est créé UNE fois ([remember]) : sans cela, chaque recomposition relancerait le compte à rebours ! [collectAsStateWithLifecycle] en fait un état, qui suit ses valeurs ; la collecte s&#x27;arrête quand l&#x27;application passe au second plan ;</li>
+<li>lignes 107-125 : la recherche au fil de la frappe. [snapshotFlow <em>[ saisie ]</em>] : le [Flow] des valeurs successives d&#x27;un état <em>[Compose]</em> ; [debounce(400)], l&#x27;ANTI-REBOND : une saisie n&#x27;est transmise qu&#x27;après 400 ms sans frappe ; [mapLatest] : une nouvelle saisie ANNULE la recherche précédente, si elle n&#x27;est pas terminée : pas de réponse périmée ;</li>
+<li>lignes 119-121 : une coroutine annulée reçoit une [CancellationException] : on peut la tracer, mais on doit la relancer ([throw e]) pour que l&#x27;annulation aille au bout ;</li>
+<li>lignes 130-132 : [produceState] : une coroutine qui PRODUIT un état (ici, une valeur qui arrive au bout d&#x27;une seconde).</li>
+</ul>
+<p><img src="images/100000000000021C000004B019AB439F.png" width="227" height="504" style="width:6.001cm;height:13.333cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000021C000004B019AB439F.png" /></p>
+<p><img src="images/100000000000021C000004B0E88A2A64.png" width="227" height="504" style="width:6.001cm;height:13.333cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000021C000004B0E88A2A64.png" /></p>
+<p>À gauche, au démarrage ; à droite, après la saisie rapide de « pel », « du », puis « dup » : seules les saisies suivies d&#x27;une pause ont donné lieu à une recherche, et l&#x27;affichage est celui de la dernière.</p>
+<h2 id="62-exemple-20-un-etat-partage">6.2. <span style="color: #2e74b5">Exemple 20 : un état partagé</span></h2>
+<p>Un « magasin » (store) est un état qui vit HORS des écrans, en UN seul exemplaire, partagé par tous ceux qui le lisent. L&#x27;exemple 14 l&#x27;a fait à la main ; <em>[Android]</em> fournit pour cela le [ViewModel] : un objet créé à la PREMIÈRE demande ([viewModel()]), rendu ensuite à l&#x27;identique à tous ceux qui le demandent, et qui SURVIT à la recréation de l&#x27;activité (rotation de l&#x27;écran, changement de langue). C&#x27;est l&#x27;équivalent des paquets [provider] ou [riverpod] de <em>[Flutter]</em>.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span>
+<span class="normal"><a href="#__codelineno-1-46">46</a></span>
+<span class="normal"><a href="#__codelineno-1-47">47</a></span>
+<span class="normal"><a href="#__codelineno-1-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="c1">// ex20/magasins/Panier.kt - un ÉTAT PARTAGÉ, dans un ViewModel</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1">// -------------------------------------------------------------------------</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1">// Un "magasin" (store) est un état qui vit HORS des écrans, en UN seul</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="c1">// exemplaire, partagé par tous ceux qui le lisent. L'exemple 14 l'a fait</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="c1">// à la main (CompositionLocal) ; Android fournit pour cela le ViewModel :</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c1">//   - un objet créé à la PREMIÈRE demande, puis rendu à l'identique à</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="c1">//     toutes les fonctions de l'activité qui le demandent : viewModel() ;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="c1">//   - qui SURVIT à la recréation de l'activité (rotation de l'écran,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="c1">//     changement de langue) : il n'est détruit que quand l'activité est</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="c1">//     définitivement fermée.</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="c1">// Organisation habituelle :</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="c1">//   - l'ÉTAT : un MutableStateFlow PRIVÉ, une valeur observable ; dehors, on</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="c1">//     n'en voit qu'une version en lecture seule (StateFlow) ;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="c1">//   - les ACTIONS : des fonctions, seules à modifier l'état ;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="c1">//   - les valeurs calculées : d'autres StateFlow, déduits du premier (map),</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="c1">//     qui ne changent QUE si leur valeur change.</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="k">package</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.magasins</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.SharingStarted</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.StateFlow</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.map</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.stateIn</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.update</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Article</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">libelle</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">prix</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="p">)</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32"></a>
+<a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="kd">class</span><span class="w"> </span><span class="nc">Panier</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_articles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">listOf</span><span class="o">&lt;</span><span class="n">Article</span><span class="o">&gt;</span><span class="p">())</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">articles</span><span class="p">:</span><span class="w"> </span><span class="n">StateFlow</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Article</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_articles</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36"></a>
+<a id="__codelineno-1-37" name="__codelineno-1-37"></a><span class="w">    </span><span class="c1">// des valeurs DÉDUITES : stateIn en fait des StateFlow, qui vivent aussi</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38"></a><span class="w">    </span><span class="c1">// longtemps que le ViewModel (viewModelScope)</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">nombre</span><span class="p">:</span><span class="w"> </span><span class="n">StateFlow</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">size</span><span class="w"> </span><span class="p">}.</span><span class="na">stateIn</span><span class="p">(</span><span class="n">viewModelScope</span><span class="p">,</span><span class="w"> </span><span class="n">SharingStarted</span><span class="p">.</span><span class="na">Eagerly</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">total</span><span class="p">:</span><span class="w"> </span><span class="n">StateFlow</span><span class="o">&lt;</span><span class="kt">Double</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">articles</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">liste</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">liste</span><span class="p">.</span><span class="na">sumOf</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">prix</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}.</span><span class="na">stateIn</span><span class="p">(</span><span class="n">viewModelScope</span><span class="p">,</span><span class="w"> </span><span class="n">SharingStarted</span><span class="p">.</span><span class="na">Eagerly</span><span class="p">,</span><span class="w"> </span><span class="m">0.0</span><span class="p">)</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41"></a>
+<a id="__codelineno-1-42" name="__codelineno-1-42"></a><span class="w">    </span><span class="c1">// update : remplace la valeur par une nouvelle, calculée à partir de l'ancienne</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">ajouter</span><span class="p">(</span><span class="n">article</span><span class="p">:</span><span class="w"> </span><span class="n">Article</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_articles</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">article</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44"></a>
+<a id="__codelineno-1-45" name="__codelineno-1-45"></a><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">vider</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46"></a><span class="w">        </span><span class="n">_articles</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>lignes 34-35 : l&#x27;ÉTAT : un [MutableStateFlow] PRIVÉ, une valeur observable ; dehors, on n&#x27;en voit qu&#x27;une version en lecture seule ([StateFlow]) ;</li>
+<li>lignes 39-40 : des valeurs DÉDUITES : [map], puis [stateIn], qui en fait des [StateFlow] vivant aussi longtemps que le [ViewModel] ([viewModelScope]). Un [StateFlow] n&#x27;émet que si sa valeur CHANGE ;</li>
+<li>lignes 43-46 : les ACTIONS, seules à modifier l&#x27;état ; [update] remplace la valeur par une nouvelle, calculée à partir de l&#x27;ancienne.</li>
+</ul>
+<p>Pour qu&#x27;une donnée survive à l&#x27;ARRÊT de l&#x27;application, il faut la ranger sur l&#x27;appareil. La bibliothèque <em>[DataStore]</em> de <em>[Jetpack]</em> offre un petit dictionnaire clé → valeur, conservé dans un fichier propre à l&#x27;application :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span>
+<span class="normal"><a href="#__codelineno-2-34">34</a></span>
+<span class="normal"><a href="#__codelineno-2-35">35</a></span>
+<span class="normal"><a href="#__codelineno-2-36">36</a></span>
+<span class="normal"><a href="#__codelineno-2-37">37</a></span>
+<span class="normal"><a href="#__codelineno-2-38">38</a></span>
+<span class="normal"><a href="#__codelineno-2-39">39</a></span>
+<span class="normal"><a href="#__codelineno-2-40">40</a></span>
+<span class="normal"><a href="#__codelineno-2-41">41</a></span>
+<span class="normal"><a href="#__codelineno-2-42">42</a></span>
+<span class="normal"><a href="#__codelineno-2-43">43</a></span>
+<span class="normal"><a href="#__codelineno-2-44">44</a></span>
+<span class="normal"><a href="#__codelineno-2-45">45</a></span>
+<span class="normal"><a href="#__codelineno-2-46">46</a></span>
+<span class="normal"><a href="#__codelineno-2-47">47</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1">// ex20/magasins/Preferences.kt - un état qui survit à l'arrêt</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">// -------------------------------------------------------------------------</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1">// Pour qu'une donnée survive à l'arrêt de l'application, il faut la ranger</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="c1">// SUR L'APPAREIL. La bibliothèque DataStore de Jetpack offre un petit</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="c1">// dictionnaire clé -&gt; valeur (Boolean, Int, Float, String...), propre à</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="c1">// l'application et conservé dans un fichier du téléphone :</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="c1">//   - la lecture est un Flow : il émet les valeurs mémorisées (lues de</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="c1">//     façon asynchrone, sans bloquer l'écran), puis chaque nouvelle valeur ;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="c1">//   - l'écriture est une fonction suspendue (edit).</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="c1">// On n'y range JAMAIS de donnée sensible (mot de passe, jeton) : elles y</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="c1">// sont écrites en clair.</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="k">package</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.magasins</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.datastore.core.DataStore</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.datastore.preferences.core.Preferences</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.datastore.preferences.core.booleanPreferencesKey</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.datastore.preferences.core.edit</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.datastore.preferences.core.floatPreferencesKey</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.datastore.preferences.preferencesDataStore</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.map</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26"></a><span class="c1">// LE fichier de préférences de l'exemple : une propriété d'extension de</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27"></a><span class="c1">// Context, déléguée à preferencesDataStore (un seul DataStore par fichier)</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="kd">val</span><span class="w"> </span><span class="nv">Context</span><span class="p">.</span><span class="na">stockage</span><span class="p">:</span><span class="w"> </span><span class="n">DataStore</span><span class="o">&lt;</span><span class="n">Preferences</span><span class="o">&gt;</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">preferencesDataStore</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"exemple20"</span><span class="p">)</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29"></a>
+<a id="__codelineno-2-30" name="__codelineno-2-30"></a><span class="c1">// ce qui est mémorisé</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31"></a><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Reglages</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">sombre</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">taille</span><span class="p">:</span><span class="w"> </span><span class="kt">Float</span><span class="p">)</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32"></a>
+<a id="__codelineno-2-33" name="__codelineno-2-33"></a><span class="kd">class</span><span class="w"> </span><span class="nc">PreferencesUtilisateur</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">stockage</span><span class="p">:</span><span class="w"> </span><span class="n">DataStore</span><span class="o">&lt;</span><span class="n">Preferences</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">cleSombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">booleanPreferencesKey</span><span class="p">(</span><span class="s">"sombre"</span><span class="p">)</span>
+<a id="__codelineno-2-35" name="__codelineno-2-35"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">cleTaille</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">floatPreferencesKey</span><span class="p">(</span><span class="s">"taille"</span><span class="p">)</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36"></a>
+<a id="__codelineno-2-37" name="__codelineno-2-37"></a><span class="w">    </span><span class="c1">// ce que l'appareil a mémorisé, sinon les valeurs par défaut</span>
+<a id="__codelineno-2-38" name="__codelineno-2-38"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">reglages</span><span class="p">:</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">Reglages</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stockage</span><span class="p">.</span><span class="na">data</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Reglages</span><span class="p">(</span><span class="n">p</span><span class="o">[</span><span class="n">cleSombre</span><span class="o">]</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">[</span><span class="n">cleTaille</span><span class="o">]</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="m">16f</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-39" name="__codelineno-2-39"></a>
+<a id="__codelineno-2-40" name="__codelineno-2-40"></a><span class="w">    </span><span class="c1">// un paramètre nommé facultatif par préférence : on ne change que ce qui est fourni</span>
+<a id="__codelineno-2-41" name="__codelineno-2-41"></a><span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">modifier</span><span class="p">(</span><span class="n">sombre</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">taille</span><span class="p">:</span><span class="w"> </span><span class="kt">Float?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-42" name="__codelineno-2-42"></a><span class="w">        </span><span class="n">stockage</span><span class="p">.</span><span class="na">edit</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">-&gt;</span>
+<a id="__codelineno-2-43" name="__codelineno-2-43"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sombre</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">p</span><span class="o">[</span><span class="n">cleSombre</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sombre</span>
+<a id="__codelineno-2-44" name="__codelineno-2-44"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">taille</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">p</span><span class="o">[</span><span class="n">cleTaille</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">taille</span>
+<a id="__codelineno-2-45" name="__codelineno-2-45"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-46" name="__codelineno-2-46"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-47" name="__codelineno-2-47"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>ligne 28 : LE fichier de préférences de l&#x27;exemple : une propriété d&#x27;extension de [Context], déléguée à [preferencesDataStore] (un seul [DataStore] par fichier) ;</li>
+<li>ligne 38 : la lecture est un [Flow] : il émet les valeurs mémorisées (lues sans bloquer l&#x27;écran), puis chaque nouvelle valeur ;</li>
+<li>lignes 41-44 : l&#x27;écriture est une fonction suspendue ([edit]). On n&#x27;y range JAMAIS de donnée sensible (mot de passe, jeton) : elles y sont écrites en clair.</li>
+</ul>
+<p>Les composants qui utilisent le panier :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span>
+<span class="normal"><a href="#__codelineno-3-26">26</a></span>
+<span class="normal"><a href="#__codelineno-3-27">27</a></span>
+<span class="normal"><a href="#__codelineno-3-28">28</a></span>
+<span class="normal"><a href="#__codelineno-3-29">29</a></span>
+<span class="normal"><a href="#__codelineno-3-30">30</a></span>
+<span class="normal"><a href="#__codelineno-3-31">31</a></span>
+<span class="normal"><a href="#__codelineno-3-32">32</a></span>
+<span class="normal"><a href="#__codelineno-3-33">33</a></span>
+<span class="normal"><a href="#__codelineno-3-34">34</a></span>
+<span class="normal"><a href="#__codelineno-3-35">35</a></span>
+<span class="normal"><a href="#__codelineno-3-36">36</a></span>
+<span class="normal"><a href="#__codelineno-3-37">37</a></span>
+<span class="normal"><a href="#__codelineno-3-38">38</a></span>
+<span class="normal"><a href="#__codelineno-3-39">39</a></span>
+<span class="normal"><a href="#__codelineno-3-40">40</a></span>
+<span class="normal"><a href="#__codelineno-3-41">41</a></span>
+<span class="normal"><a href="#__codelineno-3-42">42</a></span>
+<span class="normal"><a href="#__codelineno-3-43">43</a></span>
+<span class="normal"><a href="#__codelineno-3-44">44</a></span>
+<span class="normal"><a href="#__codelineno-3-45">45</a></span>
+<span class="normal"><a href="#__codelineno-3-46">46</a></span>
+<span class="normal"><a href="#__codelineno-3-47">47</a></span>
+<span class="normal"><a href="#__codelineno-3-48">48</a></span>
+<span class="normal"><a href="#__codelineno-3-49">49</a></span>
+<span class="normal"><a href="#__codelineno-3-50">50</a></span>
+<span class="normal"><a href="#__codelineno-3-51">51</a></span>
+<span class="normal"><a href="#__codelineno-3-52">52</a></span>
+<span class="normal"><a href="#__codelineno-3-53">53</a></span>
+<span class="normal"><a href="#__codelineno-3-54">54</a></span>
+<span class="normal"><a href="#__codelineno-3-55">55</a></span>
+<span class="normal"><a href="#__codelineno-3-56">56</a></span>
+<span class="normal"><a href="#__codelineno-3-57">57</a></span>
+<span class="normal"><a href="#__codelineno-3-58">58</a></span>
+<span class="normal"><a href="#__codelineno-3-59">59</a></span>
+<span class="normal"><a href="#__codelineno-3-60">60</a></span>
+<span class="normal"><a href="#__codelineno-3-61">61</a></span>
+<span class="normal"><a href="#__codelineno-3-62">62</a></span>
+<span class="normal"><a href="#__codelineno-3-63">63</a></span>
+<span class="normal"><a href="#__codelineno-3-64">64</a></span>
+<span class="normal"><a href="#__codelineno-3-65">65</a></span>
+<span class="normal"><a href="#__codelineno-3-66">66</a></span>
+<span class="normal"><a href="#__codelineno-3-67">67</a></span>
+<span class="normal"><a href="#__codelineno-3-68">68</a></span>
+<span class="normal"><a href="#__codelineno-3-69">69</a></span>
+<span class="normal"><a href="#__codelineno-3-70">70</a></span>
+<span class="normal"><a href="#__codelineno-3-71">71</a></span>
+<span class="normal"><a href="#__codelineno-3-72">72</a></span>
+<span class="normal"><a href="#__codelineno-3-73">73</a></span>
+<span class="normal"><a href="#__codelineno-3-74">74</a></span>
+<span class="normal"><a href="#__codelineno-3-75">75</a></span>
+<span class="normal"><a href="#__codelineno-3-76">76</a></span>
+<span class="normal"><a href="#__codelineno-3-77">77</a></span>
+<span class="normal"><a href="#__codelineno-3-78">78</a></span>
+<span class="normal"><a href="#__codelineno-3-79">79</a></span>
+<span class="normal"><a href="#__codelineno-3-80">80</a></span>
+<span class="normal"><a href="#__codelineno-3-81">81</a></span>
+<span class="normal"><a href="#__codelineno-3-82">82</a></span>
+<span class="normal"><a href="#__codelineno-3-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1">// ex20/composants/Composants.kt - trois composants de l'exemple 20</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">// -------------------------------------------------------------------------</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1">// viewModel() : le Panier de l'activité, créé à la première demande, puis</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="c1">// le MÊME pour tous ceux qui le demandent.</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="k">package</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.composants</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Add</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.ShoppingCart</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Card</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ListItem</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.OutlinedButton</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TextButton</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableIntStateOf</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.saveable.rememberSaveable</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.magasins.Article</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.magasins.Panier</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36"></a>
+<a id="__codelineno-3-37" name="__codelineno-3-37"></a><span class="kd">val</span><span class="w"> </span><span class="nv">produits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span><span class="n">Article</span><span class="p">(</span><span class="s">"Consultation"</span><span class="p">,</span><span class="w"> </span><span class="m">30.0</span><span class="p">),</span><span class="w"> </span><span class="n">Article</span><span class="p">(</span><span class="s">"Vaccin"</span><span class="p">,</span><span class="w"> </span><span class="m">12.5</span><span class="p">))</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38"></a>
+<a id="__codelineno-3-39" name="__codelineno-3-39"></a><span class="c1">// AJOUTE au panier partagé : la boutique ne LIT pas le panier, elle n'est</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40"></a><span class="c1">// pas recomposée quand il change</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41"></a><span class="nd">@Composable</span>
+<a id="__codelineno-3-42" name="__codelineno-3-42"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">Boutique</span><span class="p">(</span><span class="n">panier</span><span class="p">:</span><span class="w"> </span><span class="n">Panier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-43" name="__codelineno-3-43"></a><span class="w">    </span><span class="n">Card</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-44" name="__codelineno-3-44"></a><span class="w">        </span><span class="n">Column</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">12.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-45" name="__codelineno-3-45"></a><span class="w">            </span><span class="n">Text</span><span class="p">(</span><span class="s">"Boutique"</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">typography</span><span class="p">.</span><span class="na">titleSmall</span><span class="p">)</span>
+<a id="__codelineno-3-46" name="__codelineno-3-46"></a><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">produits</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-47" name="__codelineno-3-47"></a><span class="w">                </span><span class="n">TextButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">panier</span><span class="p">.</span><span class="na">ajouter</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-48" name="__codelineno-3-48"></a><span class="w">                    </span><span class="n">Icon</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Add</span><span class="p">,</span><span class="w"> </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<a id="__codelineno-3-49" name="__codelineno-3-49"></a><span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="s">"</span><span class="si">${</span><span class="n">p</span><span class="p">.</span><span class="na">libelle</span><span class="si">}</span><span class="s"> (</span><span class="si">${</span><span class="n">p</span><span class="p">.</span><span class="na">prix</span><span class="si">}</span><span class="s"> €)"</span><span class="p">)</span>
+<a id="__codelineno-3-50" name="__codelineno-3-50"></a><span class="w">                </span><span class="p">}</span>
+<a id="__codelineno-3-51" name="__codelineno-3-51"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-3-52" name="__codelineno-3-52"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-3-53" name="__codelineno-3-53"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-54" name="__codelineno-3-54"></a><span class="p">}</span>
+<a id="__codelineno-3-55" name="__codelineno-3-55"></a>
+<a id="__codelineno-3-56" name="__codelineno-3-56"></a><span class="c1">// LIT le même panier : seulement le nombre et le total (recomposé</span>
+<a id="__codelineno-3-57" name="__codelineno-3-57"></a><span class="c1">// seulement si l'un des deux change)</span>
+<a id="__codelineno-3-58" name="__codelineno-3-58"></a><span class="nd">@Composable</span>
+<a id="__codelineno-3-59" name="__codelineno-3-59"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">ResumePanier</span><span class="p">(</span><span class="n">panier</span><span class="p">:</span><span class="w"> </span><span class="n">Panier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-60" name="__codelineno-3-60"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">nombre</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">panier</span><span class="p">.</span><span class="na">nombre</span><span class="p">.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">()</span>
+<a id="__codelineno-3-61" name="__codelineno-3-61"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">total</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">panier</span><span class="p">.</span><span class="na">total</span><span class="p">.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">()</span>
+<a id="__codelineno-3-62" name="__codelineno-3-62"></a><span class="w">    </span><span class="n">Card</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-63" name="__codelineno-3-63"></a><span class="w">        </span><span class="n">Row</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">12.</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="n">verticalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterVertically</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-64" name="__codelineno-3-64"></a><span class="w">            </span><span class="n">Icon</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">ShoppingCart</span><span class="p">,</span><span class="w"> </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<a id="__codelineno-3-65" name="__codelineno-3-65"></a><span class="w">            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="m">8.</span><span class="n">dp</span><span class="p">))</span>
+<a id="__codelineno-3-66" name="__codelineno-3-66"></a><span class="w">            </span><span class="n">Text</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">nombre</span><span class="s"> article(s), </span><span class="si">$</span><span class="n">total</span><span class="s"> €"</span><span class="p">,</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="m">1f</span><span class="p">))</span>
+<a id="__codelineno-3-67" name="__codelineno-3-67"></a><span class="w">            </span><span class="n">TextButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">panier</span><span class="p">.</span><span class="na">vider</span><span class="p">()</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nombre</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"Vider"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-68" name="__codelineno-3-68"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-3-69" name="__codelineno-3-69"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-70" name="__codelineno-3-70"></a><span class="p">}</span>
+<a id="__codelineno-3-71" name="__codelineno-3-71"></a>
+<a id="__codelineno-3-72" name="__codelineno-3-72"></a><span class="c1">// un état LOCAL (rememberSaveable), qui disparaît avec le composant...</span>
+<a id="__codelineno-3-73" name="__codelineno-3-73"></a><span class="c1">// sauf s'il est placé dans un SaveableStateProvider (cf. Ex20Activity.kt)</span>
+<a id="__codelineno-3-74" name="__codelineno-3-74"></a><span class="nd">@Composable</span>
+<a id="__codelineno-3-75" name="__codelineno-3-75"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">CompteurLocal</span><span class="p">(</span><span class="n">titre</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-76" name="__codelineno-3-76"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">clics</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">rememberSaveable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableIntStateOf</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-77" name="__codelineno-3-77"></a><span class="w">    </span><span class="n">Card</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-78" name="__codelineno-3-78"></a><span class="w">        </span><span class="n">ListItem</span><span class="p">(</span>
+<a id="__codelineno-3-79" name="__codelineno-3-79"></a><span class="w">            </span><span class="n">headlineContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">titre</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-80" name="__codelineno-3-80"></a><span class="w">            </span><span class="n">trailingContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">OutlinedButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">clics</span><span class="o">++</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">clics</span><span class="s"> clic(s)"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-3-81" name="__codelineno-3-81"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-3-82" name="__codelineno-3-82"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-83" name="__codelineno-3-83"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>ligne 42 : [panier: Panier = viewModel()] : le panier de l&#x27;activité, créé à la première demande. La boutique AJOUTE au panier sans le lire : elle n&#x27;est pas recomposée quand il change ;</li>
+<li>lignes 60-61 : le résumé ne lit que le nombre et le total : il n&#x27;est recomposé que si l&#x27;un des deux change ;</li>
+<li>lignes 75-76 : un état LOCAL, qui disparaît avec le composant.</li>
+</ul>
+<p>L&#x27;écran :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-4-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-4-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-4-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-4-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-4-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-4-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-4-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-4-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-4-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-4-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-4-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-4-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-4-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-4-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-4-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-4-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-4-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-4-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-4-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-4-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-4-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-4-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-4-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-4-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-4-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-4-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-4-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-4-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-4-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-4-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-4-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-4-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-4-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-4-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-4-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-4-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-4-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-4-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-4-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-4-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-4-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-4-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-4-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-4-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-4-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-4-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-4-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-4-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-4-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-4-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-4-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-4-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-4-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-4-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-4-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-4-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-4-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-4-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-4-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-4-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-4-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-4-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-4-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-4-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-4-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-4-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-4-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-4-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-4-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-4-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-4-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-4-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-4-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-4-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-4-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-4-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-4-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-4-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-4-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-4-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-4-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-4-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-4-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-4-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-4-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-4-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-4-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-4-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-4-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-4-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-4-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-4-100">100</a></span>
+<span class="normal"><a href="#__codelineno-4-101">101</a></span>
+<span class="normal"><a href="#__codelineno-4-102">102</a></span>
+<span class="normal"><a href="#__codelineno-4-103">103</a></span>
+<span class="normal"><a href="#__codelineno-4-104">104</a></span>
+<span class="normal"><a href="#__codelineno-4-105">105</a></span>
+<span class="normal"><a href="#__codelineno-4-106">106</a></span>
+<span class="normal"><a href="#__codelineno-4-107">107</a></span>
+<span class="normal"><a href="#__codelineno-4-108">108</a></span>
+<span class="normal"><a href="#__codelineno-4-109">109</a></span>
+<span class="normal"><a href="#__codelineno-4-110">110</a></span>
+<span class="normal"><a href="#__codelineno-4-111">111</a></span>
+<span class="normal"><a href="#__codelineno-4-112">112</a></span>
+<span class="normal"><a href="#__codelineno-4-113">113</a></span>
+<span class="normal"><a href="#__codelineno-4-114">114</a></span>
+<span class="normal"><a href="#__codelineno-4-115">115</a></span>
+<span class="normal"><a href="#__codelineno-4-116">116</a></span>
+<span class="normal"><a href="#__codelineno-4-117">117</a></span>
+<span class="normal"><a href="#__codelineno-4-118">118</a></span>
+<span class="normal"><a href="#__codelineno-4-119">119</a></span>
+<span class="normal"><a href="#__codelineno-4-120">120</a></span>
+<span class="normal"><a href="#__codelineno-4-121">121</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1">// ex20/Ex20Activity.kt - trois "portées" de données</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1">// -------------------------------------------------------------------------</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1">//   - l'état LOCAL d'un composant (CompteurLocal) disparaît avec lui ;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="c1">//   - l'état d'un MAGASIN (le panier, un ViewModel) est partagé par tous</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c1">//     les composants et survit à leur retrait, et même à une rotation de</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c1">//     l'écran - mais pas à l'arrêt de l'application ;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="c1">//   - l'état rangé sur l'appareil (les préférences, DataStore) survit à</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="c1">//     l'arrêt.</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="c1">// Et le SaveableStateHolder : il GARDE l'état local (rememberSaveable)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="c1">// d'un contenu retiré de l'écran, et le lui rend s'il revient.</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="c1">// Décochez puis recochez "afficher la zone", puis arrêtez et relancez</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="c1">// l'application : comparez.</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="c1">// =========================================================================</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="k">package</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.enableEdgeToEdge</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.selection.toggleable</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Checkbox</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ListItem</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Slider</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Switch</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.CompositionLocalProvider</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.rememberCoroutineScope</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.saveable.rememberSaveable</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.saveable.rememberSaveableStateHolder</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalDensity</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.Density</span>
+<a id="__codelineno-4-39" name="__codelineno-4-39"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40"></a><span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<a id="__codelineno-4-41" name="__codelineno-4-41"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.commun.PageExemple</span>
+<a id="__codelineno-4-42" name="__codelineno-4-42"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.commun.ThemeExemples</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.composants.Boutique</span>
+<a id="__codelineno-4-44" name="__codelineno-4-44"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.composants.CompteurLocal</span>
+<a id="__codelineno-4-45" name="__codelineno-4-45"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.composants.ResumePanier</span>
+<a id="__codelineno-4-46" name="__codelineno-4-46"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.magasins.PreferencesUtilisateur</span>
+<a id="__codelineno-4-47" name="__codelineno-4-47"></a><span class="k">import</span><span class="w"> </span><span class="nn">fr.stahe.exemples.ex20.magasins.stockage</span>
+<a id="__codelineno-4-48" name="__codelineno-4-48"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+<a id="__codelineno-4-49" name="__codelineno-4-49"></a><span class="k">import</span><span class="w"> </span><span class="nn">kotlin.math.roundToInt</span>
+<a id="__codelineno-4-50" name="__codelineno-4-50"></a>
+<a id="__codelineno-4-51" name="__codelineno-4-51"></a><span class="kd">class</span><span class="w"> </span><span class="nc">Ex20Activity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-52" name="__codelineno-4-52"></a><span class="w">    </span><span class="c1">// lazy : l'objet est créé au premier usage (le contexte de l'application</span>
+<a id="__codelineno-4-53" name="__codelineno-4-53"></a><span class="w">    </span><span class="c1">// n'existe pas encore quand l'activité est construite)</span>
+<a id="__codelineno-4-54" name="__codelineno-4-54"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">preferences</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">lazy</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">PreferencesUtilisateur</span><span class="p">(</span><span class="n">applicationContext</span><span class="p">.</span><span class="na">stockage</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-55" name="__codelineno-4-55"></a>
+<a id="__codelineno-4-56" name="__codelineno-4-56"></a><span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-57" name="__codelineno-4-57"></a><span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+<a id="__codelineno-4-58" name="__codelineno-4-58"></a><span class="w">        </span><span class="n">enableEdgeToEdge</span><span class="p">()</span>
+<a id="__codelineno-4-59" name="__codelineno-4-59"></a><span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Application</span><span class="p">(</span><span class="n">preferences</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-60" name="__codelineno-4-60"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-61" name="__codelineno-4-61"></a><span class="p">}</span>
+<a id="__codelineno-4-62" name="__codelineno-4-62"></a>
+<a id="__codelineno-4-63" name="__codelineno-4-63"></a><span class="nd">@Composable</span>
+<a id="__codelineno-4-64" name="__codelineno-4-64"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">Application</span><span class="p">(</span><span class="n">preferences</span><span class="p">:</span><span class="w"> </span><span class="n">PreferencesUtilisateur</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-65" name="__codelineno-4-65"></a><span class="w">    </span><span class="c1">// les préférences mémorisées : null tant qu'elles n'ont pas été lues</span>
+<a id="__codelineno-4-66" name="__codelineno-4-66"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">reglages</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">preferences</span><span class="p">.</span><span class="na">reglages</span><span class="p">.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">(</span><span class="n">initialValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<a id="__codelineno-4-67" name="__codelineno-4-67"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reglages</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="c1">// rien à afficher avant la lecture (quelques millisecondes)</span>
+<a id="__codelineno-4-68" name="__codelineno-4-68"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">portee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberCoroutineScope</span><span class="p">()</span>
+<a id="__codelineno-4-69" name="__codelineno-4-69"></a>
+<a id="__codelineno-4-70" name="__codelineno-4-70"></a><span class="w">    </span><span class="c1">// le thème sombre, ou clair</span>
+<a id="__codelineno-4-71" name="__codelineno-4-71"></a><span class="w">    </span><span class="n">ThemeExemples</span><span class="p">(</span><span class="n">sombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="na">sombre</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-72" name="__codelineno-4-72"></a><span class="w">        </span><span class="c1">// la taille du texte : fontScale multiplie la taille de TOUS les textes</span>
+<a id="__codelineno-4-73" name="__codelineno-4-73"></a><span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">densite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDensity</span><span class="p">.</span><span class="na">current</span>
+<a id="__codelineno-4-74" name="__codelineno-4-74"></a><span class="w">        </span><span class="n">CompositionLocalProvider</span><span class="p">(</span><span class="n">LocalDensity</span><span class="w"> </span><span class="n">provides</span><span class="w"> </span><span class="n">Density</span><span class="p">(</span><span class="n">densite</span><span class="p">.</span><span class="na">density</span><span class="p">,</span><span class="w"> </span><span class="n">fontScale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="na">taille</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">16f</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-75" name="__codelineno-4-75"></a><span class="w">            </span><span class="n">PageEtatPartage</span><span class="p">(</span>
+<a id="__codelineno-4-76" name="__codelineno-4-76"></a><span class="w">                </span><span class="n">sombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="na">sombre</span><span class="p">,</span>
+<a id="__codelineno-4-77" name="__codelineno-4-77"></a><span class="w">                </span><span class="n">taille</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="na">taille</span><span class="p">,</span>
+<a id="__codelineno-4-78" name="__codelineno-4-78"></a><span class="w">                </span><span class="n">onSombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">portee</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">preferences</span><span class="p">.</span><span class="na">modifier</span><span class="p">(</span><span class="n">sombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-79" name="__codelineno-4-79"></a><span class="w">                </span><span class="n">onTaille</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">portee</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">preferences</span><span class="p">.</span><span class="na">modifier</span><span class="p">(</span><span class="n">taille</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-80" name="__codelineno-4-80"></a><span class="w">            </span><span class="p">)</span>
+<a id="__codelineno-4-81" name="__codelineno-4-81"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-82" name="__codelineno-4-82"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-83" name="__codelineno-4-83"></a><span class="p">}</span>
+<a id="__codelineno-4-84" name="__codelineno-4-84"></a>
+<a id="__codelineno-4-85" name="__codelineno-4-85"></a><span class="nd">@Composable</span>
+<a id="__codelineno-4-86" name="__codelineno-4-86"></a><span class="kd">fun</span><span class="w"> </span><span class="nf">PageEtatPartage</span><span class="p">(</span><span class="n">sombre</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span><span class="w"> </span><span class="n">taille</span><span class="p">:</span><span class="w"> </span><span class="kt">Float</span><span class="p">,</span><span class="w"> </span><span class="n">onSombre</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">Boolean</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span><span class="w"> </span><span class="n">onTaille</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">Float</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-87" name="__codelineno-4-87"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">zoneVisible</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">rememberSaveable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-88" name="__codelineno-4-88"></a><span class="w">    </span><span class="c1">// le gardien des états des contenus retirés</span>
+<a id="__codelineno-4-89" name="__codelineno-4-89"></a><span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">etatsGardes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberSaveableStateHolder</span><span class="p">()</span>
+<a id="__codelineno-4-90" name="__codelineno-4-90"></a>
+<a id="__codelineno-4-91" name="__codelineno-4-91"></a><span class="w">    </span><span class="n">PageExemple</span><span class="p">(</span><span class="s">"Exemple 20 - un état partagé"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-92" name="__codelineno-4-92"></a><span class="w">        </span><span class="n">ListItem</span><span class="p">(</span>
+<a id="__codelineno-4-93" name="__codelineno-4-93"></a><span class="w">            </span><span class="n">headlineContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"thème sombre"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-94" name="__codelineno-4-94"></a><span class="w">            </span><span class="n">trailingContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Switch</span><span class="p">(</span><span class="n">checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sombre</span><span class="p">,</span><span class="w"> </span><span class="n">onCheckedChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onSombre</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-95" name="__codelineno-4-95"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-4-96" name="__codelineno-4-96"></a><span class="w">        </span><span class="n">ListItem</span><span class="p">(</span>
+<a id="__codelineno-4-97" name="__codelineno-4-97"></a><span class="w">            </span><span class="n">headlineContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"taille du texte : </span><span class="si">${</span><span class="n">taille</span><span class="p">.</span><span class="na">roundToInt</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-98" name="__codelineno-4-98"></a><span class="w">            </span><span class="n">supportingContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Slider</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">taille</span><span class="p">,</span><span class="w"> </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onTaille</span><span class="p">,</span><span class="w"> </span><span class="n">valueRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12f</span><span class="p">..</span><span class="m">22f</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-99" name="__codelineno-4-99"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-4-100" name="__codelineno-4-100"></a><span class="w">        </span><span class="n">ListItem</span><span class="p">(</span>
+<a id="__codelineno-4-101" name="__codelineno-4-101"></a><span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">toggleable</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zoneVisible</span><span class="p">,</span><span class="w"> </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">zoneVisible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">}),</span>
+<a id="__codelineno-4-102" name="__codelineno-4-102"></a><span class="w">            </span><span class="n">leadingContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Checkbox</span><span class="p">(</span><span class="n">checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zoneVisible</span><span class="p">,</span><span class="w"> </span><span class="n">onCheckedChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-103" name="__codelineno-4-103"></a><span class="w">            </span><span class="n">headlineContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"afficher la zone"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-104" name="__codelineno-4-104"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-4-105" name="__codelineno-4-105"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">zoneVisible</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-106" name="__codelineno-4-106"></a><span class="w">            </span><span class="c1">// retirés : ces composants disparaissent, avec leur état local</span>
+<a id="__codelineno-4-107" name="__codelineno-4-107"></a><span class="w">            </span><span class="n">Boutique</span><span class="p">()</span>
+<a id="__codelineno-4-108" name="__codelineno-4-108"></a><span class="w">            </span><span class="n">ResumePanier</span><span class="p">()</span>
+<a id="__codelineno-4-109" name="__codelineno-4-109"></a><span class="w">            </span><span class="n">CompteurLocal</span><span class="p">(</span><span class="s">"État local"</span><span class="p">)</span>
+<a id="__codelineno-4-110" name="__codelineno-4-110"></a><span class="w">            </span><span class="c1">// retiré lui aussi, mais son état est GARDÉ par etatsGardes, sous la clé "compteur"</span>
+<a id="__codelineno-4-111" name="__codelineno-4-111"></a><span class="w">            </span><span class="n">etatsGardes</span><span class="p">.</span><span class="na">SaveableStateProvider</span><span class="p">(</span><span class="s">"compteur"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-112" name="__codelineno-4-112"></a><span class="w">                </span><span class="n">CompteurLocal</span><span class="p">(</span><span class="s">"État local, gardé par un SaveableStateHolder"</span><span class="p">)</span>
+<a id="__codelineno-4-113" name="__codelineno-4-113"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-4-114" name="__codelineno-4-114"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-115" name="__codelineno-4-115"></a><span class="w">        </span><span class="n">Text</span><span class="p">(</span>
+<a id="__codelineno-4-116" name="__codelineno-4-116"></a><span class="w">            </span><span class="s">"Hors de la zone, un second résumé du MÊME panier (il reste là quand la zone disparaît) :"</span><span class="p">,</span>
+<a id="__codelineno-4-117" name="__codelineno-4-117"></a><span class="w">            </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">vertical</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.</span><span class="n">dp</span><span class="p">),</span>
+<a id="__codelineno-4-118" name="__codelineno-4-118"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-4-119" name="__codelineno-4-119"></a><span class="w">        </span><span class="n">ResumePanier</span><span class="p">()</span>
+<a id="__codelineno-4-120" name="__codelineno-4-120"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-121" name="__codelineno-4-121"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>ligne 54 : [by lazy] : l&#x27;objet est créé au premier usage (le contexte de l&#x27;application n&#x27;existe pas encore quand l&#x27;activité est construite) ;</li>
+<li>lignes 66-67 : les préférences lues ; [?: return] : rien à afficher tant qu&#x27;elles n&#x27;ont pas été lues (quelques millisecondes) ;</li>
+<li>lignes 71-79 : le thème sombre ou clair, et la taille de TOUS les textes ([fontScale] de [LocalDensity], une [CompositionLocal]) ; modifier une préférence lance une coroutine ;</li>
+<li>lignes 89-112 : [rememberSaveableStateHolder] : un gardien qui GARDE l&#x27;état local ([rememberSaveable]) d&#x27;un contenu retiré de l&#x27;écran, et le lui rend s&#x27;il revient.</li>
+</ul>
+<p><img src="images/100000000000021C000004B064037B48.png" width="189" height="420" style="width:5.001cm;height:11.111cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000021C000004B064037B48.png" /></p>
+<p><img src="images/100000000000021C000004B0CB1CAC43.png" width="189" height="420" style="width:5.001cm;height:11.111cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000021C000004B0CB1CAC43.png" /></p>
+<p><img src="images/100000000000021C000004B0EB0D32CE.png" width="189" height="420" style="width:5.001cm;height:11.111cm;" alt="Image" class="odt-zoomable" data-zoom-src="images/100000000000021C000004B0EB0D32CE.png" /></p>
+<p>À gauche, deux articles et des clics sur les deux compteurs ; au milieu, thème sombre et zone masquée : le résumé hors de la zone voit toujours le panier ; à droite, la zone réaffichée : le panier est intact, le compteur local est revenu à 0, le compteur gardé a retrouvé sa valeur. Arrêtez puis relancez l&#x27;application : seules les préférences (thème, taille du texte) ont survécu.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner">
+
+      <div>
+        <a href="https://stahe.github.io" target="_blank">
+          https://stahe.github.io
+        </a>
+        <br>
+        Ce cours, rédigé par l’IA d’Anthropic <strong>Claude</strong> à la demande de <strong>Serge Tahé</strong>, est mis à la disposition du public selon les termes de la
+        <em>licence Creative Commons Attribution – Pas d’utilisation commerciale –
+        ShareAlike 3.0 Unported</em>.
+
+      </div>
+
+    </div>
+  </div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.indexes", "navigation.expand", "toc.integrate", "navigation.top"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="javascripts/focus.js"></script>
+      
+    
+  </body>
+</html>
